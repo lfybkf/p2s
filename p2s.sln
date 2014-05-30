@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p2s", "p2s\p2s.csproj", "{BB70455E-0C17-4A0D-B565-A7B1F28ACACE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{DD4A7F21-71D7-4B96-AFCE-A960A6A60DD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentBrowser", "ContentBrowser\ContentBrowser.csproj", "{2C0B4B5F-3773-4CF3-8369-25D88936D76A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB70455E-0C17-4A0D-B565-A7B1F28ACACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB70455E-0C17-4A0D-B565-A7B1F28ACACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB70455E-0C17-4A0D-B565-A7B1F28ACACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB70455E-0C17-4A0D-B565-A7B1F28ACACE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD4A7F21-71D7-4B96-AFCE-A960A6A60DD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD4A7F21-71D7-4B96-AFCE-A960A6A60DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD4A7F21-71D7-4B96-AFCE-A960A6A60DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD4A7F21-71D7-4B96-AFCE-A960A6A60DD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C0B4B5F-3773-4CF3-8369-25D88936D76A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C0B4B5F-3773-4CF3-8369-25D88936D76A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C0B4B5F-3773-4CF3-8369-25D88936D76A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C0B4B5F-3773-4CF3-8369-25D88936D76A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
