@@ -14,8 +14,7 @@ namespace synesis
 {
 	public partial class frmMain : Form
 	{
-		string keySpriteSeeet = "keySpriteSeeet";
-		string keySprite = "keySprite";
+		Scene scene;
 		TreeNode dummy = new TreeNode();
 		string folderGameContent = null;
 
@@ -27,9 +26,9 @@ namespace synesis
 		private void tvSpriteSheet_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			TreeNode node = e.Node;
-			if (node.Tag is Sprite)
+			if (node.Tag is Frame)
 			{
-				Sprite sprite = (Sprite)node.Tag;
+				Frame sprite = (Frame)node.Tag;
 				Image img = ContentManager.getImage(sprite);
 				pictureSprite.Image = img;
 			}//if
@@ -98,7 +97,7 @@ namespace synesis
 			{
 				node.Nodes.Clear();
 				SpriteSheet obj = ContentManager.getSpriteSheet(node.Text);
-				foreach (var item in obj.content)
+				foreach (var item in obj.frames)
 				{
 					nodeSprite = new TreeNode(item.ToString());
 					nodeSprite.ImageKey = keySprite;
