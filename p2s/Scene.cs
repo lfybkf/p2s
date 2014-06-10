@@ -11,7 +11,7 @@ namespace synesis
 	/// <summary>
 	/// contains all objects of scene
 	/// </summary>
-	public class Scene
+	public class Scene: IContainerOfSceneItems
 	{
 
 		static List<Scene> scenes = new List<Scene>();
@@ -73,27 +73,44 @@ namespace synesis
 			foreach (string sheetName in sheetNamesFromSprites)
 			{
 				sheet = new SpriteSheet(sheetName);
-				sheet.load();
 				sheets.Add(sheet);
+				sheet.load();
 			}//for
 			#endregion
 
 			return isChildsOK;
 		}//function
 
+		public IEnumerable<SceneItem> getChilds()
+		{
+			return childs;
+		}//function
+
 		public SpriteSheet getSpriteSheet(string sheetName)
 		{
-			return sheets.FirstOrDefault(sheet => sheet.name == sheetName);
+			SpriteSheet sheet = sheets.FirstOrDefault(s => s.name == sheetName);
+			if (sheet == null)
+			{
+				sheet = new SpriteSheet(sheetName);
+				sheets.Add(sheet);
+				sheet.load();
+			}//if
+			return sheet;
 		}//function
 
 		public static Scene takeScene(SceneItem item)
 		{
-			return scenes.FirstOrDefault(scene => scene.childs.Contains(item));
+			return scenes.FirstOrDefault(scene => scene.contains(item));
 		}//function
 
 		public static Scene takeScene(SpriteSheet item)
 		{
 			return scenes.FirstOrDefault(scene => scene.sheets.Contains(item));
+		}//function
+
+		public override string ToString()
+		{
+			return "Scene: {0}".fmt(fileName);
 		}//function
 	}//class
 }//ns

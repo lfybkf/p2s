@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using ComputerBeacon.Json;
 
 namespace synesis
 {
-	class Sprite: SceneItem
+	public class Sprite: SceneItem
 	{
 		public static readonly string TYPE = "sprite";
 		static readonly string defaultNum = "0";
@@ -29,5 +30,13 @@ namespace synesis
 		{
 			return getScene().getSpriteSheet(sheetName).getFrame(Num);
 		}//function
+
+		public Image getImage()
+		{
+			Scene scene = getScene();
+			SpriteSheet sheet = scene.getSpriteSheet(sheetName);
+			return sheet.getImage(Num);
+		}//function
+
 	}//class
 }//ns

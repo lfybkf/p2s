@@ -10,10 +10,10 @@ namespace synesis
 	class Logger
 	{
 		static string nameDefault = "application.log";
-		static string INFO = "info: ";
-		static string WARN = "warn: ";
-		static string ERR = "err: ";
-		static Logger instance = new Logger();
+		static string INFO = "info: {0}\r\n";
+		static string WARN = "warn: {0}\r\n";
+		static string ERR = "err: {0}\r\n";
+		static readonly Logger instance = new Logger();
 		//================
 		string fileName = nameDefault;
 		//================
@@ -25,17 +25,17 @@ namespace synesis
 
 		public void info(string msg)
 		{
-			File.AppendAllText(fileName, INFO + msg);
+			File.AppendAllText(fileName, INFO.fmt(msg));
 		}//function
 
 		public void warn(string msg)
 		{
-			File.AppendAllText(fileName, WARN + msg);
+			File.AppendAllText(fileName, WARN.fmt(msg));
 		}//function
 
 		public void err(string msg)
 		{
-			File.AppendAllText(fileName, ERR + msg);
+			File.AppendAllText(fileName, ERR.fmt(msg));
 		}//function
 
 

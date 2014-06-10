@@ -29,7 +29,7 @@ namespace synesis
 
 		public string baseDir
 		{
-			get { return Scene.takeScene(this).baseDir; }
+			get { Scene scene = Scene.takeScene(this); return scene != null ? scene.baseDir : Environment.CurrentDirectory; }
 		}//function
 
 		public bool load()
@@ -40,6 +40,8 @@ namespace synesis
 
 		public bool load(string jsonString)
 		{
+			try
+			{
 			JsonObject jo = new JsonObject(jsonString);
 			string type = jo.get("header.type");
 			if (type != TYPE)
@@ -56,6 +58,13 @@ namespace synesis
 				spr.sheet = this;
 				frames.Add(spr);
 			}//for
+			}
+			catch (Exception e)
+			{
+				Logger.def.err(this.ToString());
+				Logger.def.err(e.Message);
+				return false;
+			}
 
 			return true;
 		}//function
@@ -90,6 +99,11 @@ namespace synesis
 			Ret = atlasImage.Clone(frame.rectangle, format);
 
 			return Ret;
+		}//function
+
+		public override string ToString()
+		{
+			return "{0} - {1}".fmt(TYPE, name);
 		}//function
 	}//class
 }//ns

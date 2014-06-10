@@ -7,7 +7,7 @@ using ComputerBeacon.Json;
 
 namespace synesis
 {
-	class Button: SceneItem
+	public class Button: SceneItem, IContainerOfSceneItems
 	{
 		public static readonly string TYPE = "button";
 		//=================
@@ -24,5 +24,10 @@ namespace synesis
 
 			return isChildsOK;
 		}//function
+
+		public IEnumerable<SceneItem> getChilds()
+		{
+			return childs;
+		}
 	}//class
 }//ns

@@ -8,7 +8,7 @@ using ComputerBeacon.Json;
 namespace synesis
 {
 
-	class Panel: SceneItem
+	public class Panel: SceneItem, IContainerOfSceneItems
 	{
 		public static readonly string TYPE = "sceneObject";
 		//=================
@@ -16,6 +16,10 @@ namespace synesis
 		string sizeH;
 		string sizeW;
 		//=================
+		public IEnumerable<SceneItem> getChilds()
+		{
+			return childs;
+		}//function
 
 		public override bool init(JsonObject jo)
 		{
