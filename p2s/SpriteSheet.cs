@@ -19,6 +19,7 @@ namespace synesis
 		string atlas;
 		IList<Frame> frames = new List<Frame>();
 		public int size { get { return frames.Count(); } }
+		public IEnumerable<Frame> Frames { get { return frames; } }
 		Bitmap atlasImage = null;
 		//=================
 
@@ -34,8 +35,24 @@ namespace synesis
 
 		public bool load()
 		{
-			string json = File.ReadAllText(Path.Combine(baseDir, name));
-			return load(json);
+			try
+			{
+				string file = Path.Combine(baseDir, name);
+				string fileMask = Path.GetFileNameWithoutExtension(name) + ".*";
+				if (File.Exists(file) == false)
+				{ //try to find smth else (no sheet.png? may be - sheet.spr?)
+					Logger.def.warn("SpriteSheet file {0} is absent. We'll find smth on name.".fmt(file));
+					file = Directory.EnumerateFiles(baseDir, fileMask).FirstOrDefault();
+				}//if
+				string json = File.ReadAllText(file);
+				return load(json);
+			}
+			catch (Exception e)
+			{
+				Logger.def.err("SpriteSheet {0} is absent".fmt(name));
+				Logger.def.err(e.Message);
+				return false;
+			}
 		}//function
 
 		public bool load(string jsonString)
@@ -90,7 +107,10 @@ namespace synesis
 			//create atlas if need
 			if (atlasImage == null)
 			{
-				atlasImage = new Bitmap(Path.Combine(baseDir, atlas));
+				string fileAtlas = Path.Combine(baseDir, atlas);
+				if (File.Exists(fileAtlas) == false)
+					return null;
+				atlasImage = new Bitmap(fileAtlas);
 			}//if
 
 			//crop sprite

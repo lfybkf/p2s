@@ -14,12 +14,15 @@ namespace synesis
 	public class Scene: IContainerOfSceneItems
 	{
 
+		static readonly string TYPE = "Scene";
 		static List<Scene> scenes = new List<Scene>();
 		//=====================
 		IList<SceneItem> childs = new List<SceneItem> ();
 		IList<SpriteSheet> sheets = new List<SpriteSheet>();
 		string fileName;
+		JsonObject joMain;
 		public string baseDir { get { return Path.GetDirectoryName(fileName); } }
+		public IEnumerable<SpriteSheet> Sheets { get { return sheets; } }
 		//====================
 
 		public Scene(string fileName)
@@ -30,7 +33,6 @@ namespace synesis
 
 		public bool load()
 		{
-			JsonObject jo = null;
 			#region loading and testing
 			if (File.Exists(fileName) ==false)
 			{
@@ -41,7 +43,7 @@ namespace synesis
 			try
 			{
 				string s = File.ReadAllText(fileName);
-				jo = new JsonObject(s);
+				joMain = new JsonObject(s);
 			}
 			catch (Exception e)
 			{
@@ -49,21 +51,21 @@ namespace synesis
 				return false;
 			}//try
 
-			string typeMust = "Scene";
-			string typeCurrent = jo.get("header.type");
-			if (typeMust != typeCurrent)
+			string type = joMain.get("header.type");
+			if (type != TYPE)
 			{
-				Logger.def.err(Msg.typeWrong(typeMust, typeCurrent));
+				Logger.def.err(Msg.typeWrong(TYPE, type));
 				return false;
 			}//if
 			#endregion
 
 			#region childs
-			JsonArray jaChilds = new JsonArray(jo.get("resource.root.children"));
-			bool isChildsOK = SceneItem.fillChilds(jaChilds, childs);
+			JsonArray jaChilds = new JsonArray(joMain.get("resource.root.children"));
+			bool isChildsOK = SceneItem.fillChilds(jaChilds, childs, this);
 			#endregion
 
 			#region sheets
+			/*
 			IEnumerable<string> sheetNamesFromSprites = childs
 				.Where(sceneItem => sceneItem is Sprite)
 				.Select(sprite => ((Sprite)sprite).sheetName)
@@ -76,14 +78,10 @@ namespace synesis
 				sheets.Add(sheet);
 				sheet.load();
 			}//for
+			*/
 			#endregion
 
 			return isChildsOK;
-		}//function
-
-		public IEnumerable<SceneItem> getChilds()
-		{
-			return childs;
 		}//function
 
 		public SpriteSheet getSpriteSheet(string sheetName)
@@ -112,5 +110,24 @@ namespace synesis
 		{
 			return "Scene: {0}".fmt(fileName);
 		}//function
+
+		public JsonObject getFromPull(string path)
+		{
+			JsonObject Ret = null;
+			string s = joMain.get("resource.{0}".fmt(path));
+			if (s == null)
+				Logger.def.err("Scene.getFromPull wrong path {0}".fmt(path));
+			else
+				Ret = new JsonObject(s);
+
+			return Ret;
+		}//function
+
+
+
+		public IEnumerable<SceneItem> getChilds()
+		{
+			return childs;
+		}
 	}//class
 }//ns

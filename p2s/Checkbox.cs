@@ -7,10 +7,11 @@ using ComputerBeacon.Json;
 
 namespace synesis
 {
-	public class Button: SceneItem
+	public class Checkbox: SceneItem
 	{
-		public static readonly string TYPE = "button";
+		public static readonly string TYPE = "checkbox";
 		//=================
+		IList<SceneItem> childs = new List<SceneItem>();
 		string stateMashine;
 		//=================
 		public override bool init(JsonObject jo)

@@ -23,6 +23,7 @@ namespace synesis
 			base.init(jo);
 			num = jo.get("properties.Frame") ?? defaultNum;
 			sheetName = jo.get("properties.SpriteName");
+			getScene().getSpriteSheet(sheetName);//init of spritesheet
 			return true;
 		}//function
 

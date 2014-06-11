@@ -74,4 +74,14 @@ namespace synesis
 		}//function
 
 	}//class
+
+	public static class StringExtension
+	{
+		public static string fmt(this string s, params string[] args)
+		{
+			return string.Format(s, args);
+		}//function
+	}//class
+
+
 }//ns

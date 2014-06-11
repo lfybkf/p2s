@@ -9,6 +9,7 @@ namespace synesis
 	class Text : SceneItem
 	{
 		public static readonly string TYPE = "ttfTextEdit";
+		public static readonly string TYPE2 = "text";
 		//================
 		string fontName;
 		string text;

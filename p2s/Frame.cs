@@ -58,6 +58,10 @@ namespace synesis
 			h = jo.get("frame.h");
 			w = jo.get("frame.w");
 		}//function
-		
+
+		public Image getImage()
+		{
+			return sheet.getImage(num);
+		}//function
 	}//class
 }//ns

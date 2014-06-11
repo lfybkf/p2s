@@ -13,6 +13,8 @@ namespace synesis
 
 	public static class ContainerOfSceneItemsDefaultMethods
 	{
+		public static bool hasChilds(this IContainerOfSceneItems cont) { return cont.getChilds().Any(); }
+
 		public static bool contains(this IContainerOfSceneItems cont, SceneItem obj)
 		{
 			foreach (var item in cont.getChilds())

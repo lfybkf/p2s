@@ -30,6 +30,10 @@ namespace synesis
 				Sprite sprite = (Sprite)node.Tag;
 				pictureSprite.Image = sprite.getImage(); 
 			}//if
+			else if (node.Tag is Frame)
+			{
+				pictureSprite.Image = (node.Tag as Frame).getImage();
+			}//if
 			
 		}
 
@@ -67,7 +71,25 @@ namespace synesis
 				node.Nodes.Clear();
 				foreach (var item in (node.Tag as IContainerOfSceneItems).getChilds())
 				{
-					node.addNode(item, item is IContainerOfSceneItems);
+					node.addNode(item, (item as IContainerOfSceneItems).hasChilds());
+				}//for
+			}//if
+			else if (node.Tag is SpriteSheet)
+			{
+				node.Nodes.Clear();
+				SpriteSheet sheet = (SpriteSheet)node.Tag;
+				foreach (var item in sheet.Frames)
+				{
+					node.addNode(item, false);
+				}//for
+			}//if
+
+			//this worked upper, but scene has spritesheet also
+			if (node.Tag is Scene)
+			{ 
+				foreach (var item in (node.Tag as Scene).Sheets)
+				{
+					node.addNode(item, true);
 				}//for
 			}//if
 		}//function

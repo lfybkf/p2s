@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Button.cs" />
+    <Compile Include="Checkbox.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Logger.cs" />
@@ -55,7 +56,6 @@
     <Compile Include="Frame.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="SpriteSheet.cs" />
-    <Compile Include="StringExtension.cs" />
     <Compile Include="Text.cs" />
   </ItemGroup>
   <ItemGroup>
