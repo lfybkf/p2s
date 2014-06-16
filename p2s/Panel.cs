@@ -12,14 +12,14 @@ namespace synesis
 	{
 		public static readonly string TYPE = "sceneObject";
 		//=================
-		string sizeH;
-		string sizeW;
+		string h;
+		string w;
 		//=================
 		public override bool init(JsonObject jo)
 		{
  			base.init(jo);
-			sizeH = jo.get("properties.Size.h");
-			sizeW = jo.get("properties.Size.w");
+			h = jo.get("properties.Size.h");
+			w = jo.get("properties.Size.w");
 			return true;
 		}//function
 	}//class

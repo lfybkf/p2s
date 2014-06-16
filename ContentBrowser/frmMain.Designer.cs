@@ -29,9 +29,10 @@
 		private void InitializeComponent()
 		{
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.tvSpriteSheet = new System.Windows.Forms.TreeView();
+			this.tvMain = new System.Windows.Forms.TreeView();
 			this.btnOpenFolder = new System.Windows.Forms.Button();
 			this.pictureSprite = new System.Windows.Forms.PictureBox();
+			this.btnSave = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -47,7 +48,8 @@
 			// 
 			// splitContainer1.Panel1
 			// 
-			this.splitContainer1.Panel1.Controls.Add(this.tvSpriteSheet);
+			this.splitContainer1.Panel1.Controls.Add(this.tvMain);
+			this.splitContainer1.Panel1.Controls.Add(this.btnSave);
 			this.splitContainer1.Panel1.Controls.Add(this.btnOpenFolder);
 			// 
 			// splitContainer1.Panel2
@@ -57,15 +59,15 @@
 			this.splitContainer1.SplitterDistance = 312;
 			this.splitContainer1.TabIndex = 0;
 			// 
-			// tvSpriteSheet
+			// tvMain
 			// 
-			this.tvSpriteSheet.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tvSpriteSheet.Location = new System.Drawing.Point(0, 40);
-			this.tvSpriteSheet.Name = "tvSpriteSheet";
-			this.tvSpriteSheet.Size = new System.Drawing.Size(312, 506);
-			this.tvSpriteSheet.TabIndex = 1;
-			this.tvSpriteSheet.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvSpriteSheet_BeforeExpand);
-			this.tvSpriteSheet.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvSpriteSheet_AfterSelect);
+			this.tvMain.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tvMain.Location = new System.Drawing.Point(0, 40);
+			this.tvMain.Name = "tvMain";
+			this.tvMain.Size = new System.Drawing.Size(312, 460);
+			this.tvMain.TabIndex = 1;
+			this.tvMain.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvSpriteSheet_BeforeExpand);
+			this.tvMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvSpriteSheet_AfterSelect);
 			// 
 			// btnOpenFolder
 			// 
@@ -87,6 +89,17 @@
 			this.pictureSprite.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
 			this.pictureSprite.TabIndex = 0;
 			this.pictureSprite.TabStop = false;
+			// 
+			// btnSave
+			// 
+			this.btnSave.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.btnSave.Location = new System.Drawing.Point(0, 500);
+			this.btnSave.Name = "btnSave";
+			this.btnSave.Size = new System.Drawing.Size(312, 46);
+			this.btnSave.TabIndex = 2;
+			this.btnSave.Text = "Save";
+			this.btnSave.UseVisualStyleBackColor = true;
+			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
 			// frmMain
 			// 
@@ -110,8 +123,9 @@
 
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.Button btnOpenFolder;
-		private System.Windows.Forms.TreeView tvSpriteSheet;
+		private System.Windows.Forms.TreeView tvMain;
 		private System.Windows.Forms.PictureBox pictureSprite;
+		private System.Windows.Forms.Button btnSave;
 	}
 }
 

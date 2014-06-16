@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using ComputerBeacon.Json;
 
 namespace synesis
@@ -16,33 +17,31 @@ namespace synesis
 		public static readonly string fileExtension = ".spr";
 		//=================
 		public string name { get; private set;}
-		string atlas;
+		public string baseName { get { return Path.GetFileNameWithoutExtension(name); } }
+		public string Atlas { get; private set; }
 		IList<Frame> frames = new List<Frame>();
 		public int size { get { return frames.Count(); } }
 		public IEnumerable<Frame> Frames { get { return frames; } }
 		Bitmap atlasImage = null;
+		public Scene Scene { get { return Scene.takeScene(this); } }
+		public string BaseDir { get { return Scene == null ? Environment.CurrentDirectory : Scene.BaseDir; } }
+		//public string saveDir { get { return Scene.SaveDir; } }
 		//=================
 
-		public SpriteSheet(string name)
-		{
-			this.name = name;
-		}//function
-
-		public string baseDir
-		{
-			get { Scene scene = Scene.takeScene(this); return scene != null ? scene.baseDir : Environment.CurrentDirectory; }
-		}//function
+		public SpriteSheet(string name)		{			this.name = name;		}//function
+		public Frame getFrame(int index) { return frames.ElementAtOrDefault(index); }//function
+		public override string ToString() { return "{0} - {1}".fmt(TYPE, name); }//function
 
 		public bool load()
 		{
 			try
 			{
-				string file = Path.Combine(baseDir, name);
-				string fileMask = Path.GetFileNameWithoutExtension(name) + ".*";
+				string file = Path.Combine(BaseDir, name);
+				string fileMask = baseName + ".*";
 				if (File.Exists(file) == false)
 				{ //try to find smth else (no sheet.png? may be - sheet.spr?)
-					Logger.def.warn("SpriteSheet file {0} is absent. We'll find smth on name.".fmt(file));
-					file = Directory.EnumerateFiles(baseDir, fileMask).FirstOrDefault();
+					Logger.def.warn("SpriteSheet file {0} is absent. We'll find smth on name".fmt(file));
+					file = Directory.EnumerateFiles(BaseDir, fileMask).FirstOrDefault();
 				}//if
 				string json = File.ReadAllText(file);
 				return load(json);
@@ -64,7 +63,7 @@ namespace synesis
 			if (type != TYPE)
 				return false;
 
-			atlas = jo.get("resource.meta.image");
+			Atlas = jo.get("resource.meta.image");
 			JsonArray jaFrames = new JsonArray(jo.get("resource.frames"));
 			Frame spr;
 			for (int i = 0; i < jaFrames.Count; i++)
@@ -95,19 +94,15 @@ namespace synesis
 			}
 		}//function
 
-		public Frame getFrame(int index)
-		{
-			return frames.ElementAtOrDefault(index);
-		}//function
 
-		public Image getImage(int index)
-		{
+		public Image getImage(int index)		
+		{			
 			Image Ret = null;
 
 			//create atlas if need
 			if (atlasImage == null)
 			{
-				string fileAtlas = Path.Combine(baseDir, atlas);
+				string fileAtlas = Path.Combine(BaseDir, Atlas);
 				if (File.Exists(fileAtlas) == false)
 					return null;
 				atlasImage = new Bitmap(fileAtlas);
@@ -119,11 +114,6 @@ namespace synesis
 			Ret = atlasImage.Clone(frame.rectangle, format);
 
 			return Ret;
-		}//function
-
-		public override string ToString()
-		{
-			return "{0} - {1}".fmt(TYPE, name);
 		}//function
 	}//class
 }//ns

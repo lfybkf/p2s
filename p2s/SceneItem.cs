@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 using System.Threading.Tasks;
 using ComputerBeacon.Json;
 
@@ -14,38 +15,38 @@ namespace synesis
 	/// </summary>
 	public abstract class SceneItem: IContainerOfSceneItems
 	{
-		protected static readonly string defaultId = "NO ID";
+		//protected static readonly string defaultId = "NO ID";
 		static readonly string defaultX = "0";
 		static readonly string defaultY = "0";
 		//==================
 		protected string type;
-		protected string id;
+		protected internal string id;
 		protected string drawOrder;
-		protected string positionX;
-		protected string positionY;
+		protected string x;
+		protected string y;
 		IList<SceneItem> childs = new List<SceneItem>();
-		//public bool hasChilds { get { return childs.Any(); } }
+		public Scene Scene { get { return Scene.takeScene(this); } }
+		public int DrawOrder { get { int i = 0;  bool b = Int32.TryParse(drawOrder, out i); return i; } }
 		//==================
-		public Scene getScene()
-		{ 
-			//we dont like cyclic references
-			return Scene.takeScene(this);
-		}//function
+
+		public override string ToString() { return "({0} - {1})".fmt(type, id); }//function
+		public IEnumerable<SceneItem> getChilds() { return childs; }
+		protected virtual string makeId()		{			return Idgen.next(this);		}//function
 
 		public virtual bool init(JsonObject jo)
 		{
 			type = jo.get("type");
 			drawOrder = jo.get("properties.DrawOrder");
-			id = jo.get("properties.Id") ?? defaultId;
-			positionX = jo.get("properties.Position.x") ?? defaultX;
-			positionY = jo.get("properties.Position.y") ?? defaultY;
+			id = jo.get("properties.Id") ?? makeId();
+			x = jo.get("properties.Position.x") ?? defaultX;
+			y = jo.get("properties.Position.y") ?? defaultY;
 
 			//childs
 			string s = jo.get("children");
 			if (s != null)
 			{
 				JsonArray jaChilds = new JsonArray(s);
-				fillChilds(jaChilds, childs, getScene());
+				fillChilds(jaChilds, childs, Scene);
 			}//if
 
 			return true;
@@ -94,14 +95,50 @@ namespace synesis
 			return true;
 		}//function
 
-		public override string ToString()
-		{
-			return "({0} - {1})".fmt(type, id);
+		internal virtual XElement toXmlConstant		{
+			get { 
+				return new XElement(Air.CONSTANT
+					, new XAttribute(Air.NAME, id.ToUpper()), new XAttribute(Air.TYPE, "string"), new XAttribute(Air.VALUE, id)
+				);
+			}
 		}//function
 
-		public IEnumerable<SceneItem> getChilds()
+		internal virtual XElement toXmlChild
 		{
-			return childs;
-		}
+			get
+			{
+				return new XElement(Air.CHILD
+					, new XAttribute(Air.CID, id.ToUpper())
+				);
+			}
+		}//function
+
+		internal virtual IEnumerable<XElement> toXmlLayout
+		{
+			get
+			{
+				return new XElement[] 
+				{
+					new XElement(Air.ACTION
+						, new XAttribute(Air.TARGET_COMPONENT_CID, id.ToUpper())
+						, new XAttribute(Air.TARGET_PROPERTY, "x")
+						, new XElement(Air.DP 
+							, new XAttribute(Air.VALUE, x)
+							, new XAttribute(Air.ACTION, Air.ASSIGN)
+						)
+					)
+					, new XElement(Air.ACTION
+						, new XAttribute(Air.TARGET_COMPONENT_CID, id.ToUpper())
+						, new XAttribute(Air.TARGET_PROPERTY, "y")
+						, new XElement(Air.DP 
+							, new XAttribute(Air.VALUE, y)
+							, new XAttribute(Air.ACTION, Air.ASSIGN)
+						)
+					) 
+				};
+			}
+		}//function
+
+
 	}//class
 }//ns

@@ -15,29 +15,26 @@ namespace synesis
 		//======================
 		string num;
 		int Num { get { return Int32.Parse(num); } }
+		public Frame Frame { get { return Scene.getSpriteSheet(sheetName).getFrame(Num); } }
+		public Image Image { get { return Frame.Image; } }
 		public string sheetName {get; private set;}
 		//======================
 
 		public override bool init(JsonObject jo)
 		{
-			base.init(jo);
 			num = jo.get("properties.Frame") ?? defaultNum;
 			sheetName = jo.get("properties.SpriteName");
-			getScene().getSpriteSheet(sheetName);//init of spritesheet
+			base.init(jo);
+			//init of spritesheet and frame
+			Frame.Name = id;
 			return true;
 		}//function
 
-		public Frame getFrame()
-		{
-			return getScene().getSpriteSheet(sheetName).getFrame(Num);
-		}//function
-
-		public Image getImage()
-		{
-			Scene scene = getScene();
-			SpriteSheet sheet = scene.getSpriteSheet(sheetName);
-			return sheet.getImage(Num);
-		}//function
-
+		/// <summary>
+		/// sequence here is not good
+		/// id depends on sheen
+		/// </summary>
+		/// <returns></returns>
+		protected override string makeId()		{			return sheetName + num;		}//function
 	}//class
 }//ns

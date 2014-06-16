@@ -28,11 +28,11 @@ namespace synesis
 			if (node.Tag is Sprite)
 			{
 				Sprite sprite = (Sprite)node.Tag;
-				pictureSprite.Image = sprite.getImage(); 
+				pictureSprite.Image = sprite.Image;
 			}//if
 			else if (node.Tag is Frame)
 			{
-				pictureSprite.Image = (node.Tag as Frame).getImage();
+				pictureSprite.Image = (node.Tag as Frame).Image;
 			}//if
 			
 		}
@@ -50,7 +50,7 @@ namespace synesis
 			dialog.Filter = "Scene|*.object";
 			dialog.InitialDirectory = Environment.SpecialFolder.MyComputer.ToString();
 			if (scene != null)
-				dialog.InitialDirectory = scene.baseDir;
+				dialog.InitialDirectory = scene.BaseDir;
 
 			DialogResult res = dialog.ShowDialog();
 			if (res == System.Windows.Forms.DialogResult.OK)
@@ -58,8 +58,8 @@ namespace synesis
 				scene = new Scene(dialog.FileName);
 				scene.load();
 
-				tvSpriteSheet.Nodes.Clear();
-				tvSpriteSheet.addNode(scene, true);
+				tvMain.Nodes.Clear();
+				tvMain.addNode(scene, true);
 			}//if
 		}//function
 
@@ -92,6 +92,11 @@ namespace synesis
 					node.addNode(item, true);
 				}//for
 			}//if
+		}//function
+
+		private void btnSave_Click(object sender, EventArgs e)
+		{
+			scene.saveToXmlAtlas();
 		}//function
 
 	}//class

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Xml.Linq;
 using System.Threading.Tasks;
 using ComputerBeacon.Json;
 
@@ -11,31 +12,24 @@ namespace synesis
 {
 	public class Frame
 	{
-		static readonly string fmtMain = "({0}) x={1} y={2} h={3} w={4}";
-		static readonly string fmtWithName = "({0}) x={1} y={2} h={3} w={4} name={5}";
+		static readonly string fmtMain = "({0}) x={1} y={2} h={3} w={4} name={5}";
 		//===================
 		string x, y, h, w;
 		string name;
+		public string Name { get {return name;} set { name = (name == string.Empty) ? value : name; } }
 		public int num = -1;
 		public int X { get { return Int32.Parse(x); } }
 		public int Y { get { return Int32.Parse(y); } }
 		public int H { get { return Int32.Parse(h); } }
 		public int W { get { return Int32.Parse(w); } }
 		public Rectangle rectangle { get { return new Rectangle(X, Y, W, H); } }
+		public Image Image { get { return sheet.getImage(num);  } }
 
 		internal SpriteSheet sheet;
 		//===================
-		public Frame()
-		{
-			;
-		}//function
-
 		public override string ToString()
 		{
-			if (name == null)
-				return string.Format(fmtMain, num, x, y, h, w);
-			else
-				return string.Format(fmtWithName, num, x, y, h, w, name);
+				return string.Format(fmtMain, num, x, y, h, w, name ?? string.Empty);
 		}//function
 
 		public bool isValid
@@ -59,9 +53,16 @@ namespace synesis
 			w = jo.get("frame.w");
 		}//function
 
-		public Image getImage()
+		internal XElement toXmlAtlas()
 		{
-			return sheet.getImage(num);
+			return new XElement("SubTexture"
+				, new XAttribute("name", name), new XAttribute("x", x), new XAttribute("y", y), new XAttribute("width", w), new XAttribute("height", h)
+				);
+		}//function
+
+		internal XElement toXmlScale()
+		{
+			return new XElement("Texture"	, new XAttribute("name", name));
 		}//function
 	}//class
 }//ns

@@ -43,8 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Air.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Checkbox.cs" />
+    <Compile Include="Idgen.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Logger.cs" />
