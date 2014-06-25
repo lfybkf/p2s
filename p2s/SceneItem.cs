@@ -98,7 +98,9 @@ namespace synesis
 		internal virtual XElement toXmlConstant		{
 			get { 
 				return new XElement(Air.CONSTANT
-					, new XAttribute(Air.NAME, id.ToUpper()), new XAttribute(Air.TYPE, "string"), new XAttribute(Air.VALUE, id)
+					, new XAttribute(Air.NAME, id.ToUpper())
+					, new XAttribute(Air.TYPE, "string")
+					, new XAttribute(Air.VALUE, id)
 				);
 			}
 		}//function
@@ -109,6 +111,7 @@ namespace synesis
 			{
 				return new XElement(Air.CHILD
 					, new XAttribute(Air.CID, id.ToUpper())
+					, new XAttribute(Air.STYLE, id)
 				);
 			}
 		}//function
@@ -139,6 +142,19 @@ namespace synesis
 			}
 		}//function
 
+		internal virtual XElement toXmlInitializer		{			get
+			{
+				return null;
+			}
+		}//function
 
+		internal virtual XElement toXmlComponent		{			get
+			{
+				return new XElement(Air.COMPONENT
+					, new XAttribute(Air.CLASS, Air.getComp(this))
+					, new XAttribute(Air.ID, this.id)
+					);
+			}
+		}//function
 	}//class
 }//ns

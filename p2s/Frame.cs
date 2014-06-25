@@ -53,6 +53,15 @@ namespace synesis
 			w = jo.get("frame.w");
 		}//function
 
+		public void load(XElement elem)
+		{
+			name = elem.Attribute("name").Value;
+			x = elem.Attribute("x").Value;
+			y = elem.Attribute("y").Value;
+			h = elem.Attribute("height").Value;
+			w = elem.Attribute("width").Value;
+		}//function
+
 		internal XElement toXmlAtlas()
 		{
 			return new XElement("SubTexture"

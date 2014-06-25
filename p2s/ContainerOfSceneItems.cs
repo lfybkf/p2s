@@ -31,22 +31,5 @@ namespace synesis
 			}//for
 			return false;
 		}//function
-
-		public static XElement toXmlComponent(this IContainerOfSceneItems cont)
-		{
-			Func<object, string> getId = (obj => (obj is Scene) ? "main" : (obj as SceneItem).id);
-			IEnumerable<SceneItem> childs = cont.getChilds();
-			XElement Ret = new XElement(Air.COMPONENT
-					, new XAttribute(Air.CLASS, Air.getComp(cont))
-					, new XAttribute(Air.ID, getId(cont))
-			);
-			if (childs.Any())
-				Ret.Add(
-					new XElement(Air.CONSTANTS, childs.Select(sitem => sitem.toXmlConstant))
-					, new XElement(Air.CHILDS, childs.Select(sitem => sitem.toXmlChild))
-					, new XElement(Air.LAYOUT, childs.Select(sitem => sitem.toXmlLayout))
-				);
-			return Ret;			
-		}//function
 	}//class
 }

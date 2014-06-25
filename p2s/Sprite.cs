@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 using System.Threading.Tasks;
 using ComputerBeacon.Json;
 
@@ -36,5 +37,19 @@ namespace synesis
 		/// </summary>
 		/// <returns></returns>
 		protected override string makeId()		{			return sheetName + num;		}//function
+
+		internal override XElement toXmlInitializer
+		{
+			get
+			{
+				return new XElement(Air.INITIALIZER
+					, new XAttribute(Air.ID, this.id)
+					, new XAttribute(Air.CLASS, Air.getComp(this))
+					, new XAttribute(Air.STYLE, this.id)
+					, new XElement(Air.TEXTURE_IMAGE
+						, new XAttribute(Air.IMAGE, this.Frame.Name)
+					));
+			}
+		}//function
 	}//class
 }//ns

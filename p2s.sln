@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentBrowser", "ContentBr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zpvr2pvr", "zpvr2pvr\zpvr2pvr.csproj", "{66384333-1757-475F-9E32-3C3DC85D326B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlAtlasViewer", "XmlAtlasViewer\XmlAtlasViewer.csproj", "{F2723773-7198-4BF4-9C20-914BB5E3C046}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{66384333-1757-475F-9E32-3C3DC85D326B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66384333-1757-475F-9E32-3C3DC85D326B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66384333-1757-475F-9E32-3C3DC85D326B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2723773-7198-4BF4-9C20-914BB5E3C046}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2723773-7198-4BF4-9C20-914BB5E3C046}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2723773-7198-4BF4-9C20-914BB5E3C046}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2723773-7198-4BF4-9C20-914BB5E3C046}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

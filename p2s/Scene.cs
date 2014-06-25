@@ -19,6 +19,7 @@ namespace synesis
 		//=====================
 		IList<SceneItem> childs = new List<SceneItem> ();
 		IList<SpriteSheet> sheets = new List<SpriteSheet>();
+		public string Name { get; set; }
 		string fileName;
 		JsonObject joMain;
 		public string SaveDir { get; set; }
@@ -35,6 +36,7 @@ namespace synesis
 		{
 			this.fileName = fileName;
 			this.SaveDir = Environment.CurrentDirectory;
+			this.Name = "playtika";
 			scenes.Add(this);
 		}//function
 
@@ -109,28 +111,20 @@ namespace synesis
 			return Ret;
 		}//function
 
-		/// <summary>
-		/// add standard set of attributes to root element
-		/// </summary>
-		/// <param name="xdoc"></param>
-		void addAttrToRoot(XDocument xdoc)
-		{ 
-			XNamespace xsi = "http://www.w3.org/2001/XMLSchema-instance";
-			xdoc.Root.Add(
-				new XAttribute(XNamespace.Xmlns + "xsi", xsi)
-				, new XAttribute(xsi + "noNamespaceSchemaLocation", "schema/texture-scale-definition.xsd")
-			);
-		}//function
-
-		public void saveToXmlAtlas()
+		public void saveToXmlTheme()
 		{
 			XDocument xdoc;
+			string pathSave = Path.Combine(SaveDir, @"theme\{0}\drawable-mdpi\".fmt(Name));
+
+			if (Directory.Exists(pathSave) == false)
+				Directory.CreateDirectory(pathSave);
 
 			//scale
 			IEnumerable<Frame> frames = sheets.SelectMany(sheet => sheet.Frames).OrderBy(f => f.Name);
 			xdoc = new XDocument(	new XElement("textures", frames.Select(f => f.toXmlScale()))).declare();
-			addAttrToRoot(xdoc);
-			xdoc.Save(Path.Combine(SaveDir, "textureScaleDefinition.xml"));
+			XNamespace xsi = "http://www.w3.org/2001/XMLSchema-instance";
+			xdoc.Root.Add(new XAttribute(XNamespace.Xmlns + "xsi", xsi), new XAttribute(xsi + "noNamespaceSchemaLocation", "schema/texture-scale-definition.xsd"));
+			xdoc.Save(Path.Combine(pathSave, "textureScaleDefinition.xml"));
 			
 			//atlas
 			int atlasNum = 0;		string atlasName = null;
@@ -138,28 +132,58 @@ namespace synesis
 			{
 				atlasName = "atlas_{0}".fmt(atlasNum.ToString());
 				atlasNum++;
+
 				//make xml
-				xdoc = new XDocument(
-					new XElement("TextureAtlas"
-						, new XAttribute("imagePath", atlasName + ".png")
-						, sheet.Frames.Select(f => f.toXmlAtlas())
-					)
-				).declare().comment(sheet.Atlas);
-				xdoc.Save(Path.Combine(SaveDir, atlasName + ".xml"));
+				xdoc = new XDocument().declare().comment(sheet.Atlas);
+				xdoc.Add(new XElement("TextureAtlas", new XAttribute("imagePath", atlasName + ".png")
+					, sheet.Frames.Select(f => f.toXmlAtlas())));
+				xdoc.Save(Path.Combine(pathSave, atlasName + ".xml"));
+
 				//copy png with rename
-				if (File.Exists(Path.Combine(SaveDir, atlasName + ".png")) == false)
-				{ File.Copy(Path.Combine(BaseDir, sheet.Atlas), Path.Combine(SaveDir, atlasName + ".png")); }//if
+				if (File.Exists(Path.Combine(pathSave, atlasName + ".png")) == false)
+					{ File.Copy(Path.Combine(BaseDir, sheet.Atlas), Path.Combine(pathSave, atlasName + ".png")); }//if
 			}//for
 		}//function
 
 		public void saveToXmlLayout()
 		{
+			string pathSave = Path.Combine(SaveDir, @"layouts\{0}\low800px\".fmt(Name));
+			if (Directory.Exists(pathSave) == false)
+				Directory.CreateDirectory(pathSave);
+
 			XDocument xdoc = new XDocument(new XElement("components") ).declare();
-			addAttrToRoot(xdoc);
-			
-			xdoc.Root.Add(this.toXmlComponent());
-			xdoc.Root.Add(this.getChildsAll().Select(si => si.toXmlComponent()));
-			xdoc.Save(Path.Combine(SaveDir, "layout.xml"));
+			XNamespace xsi = "http://www.w3.org/2001/XMLSchema-instance";
+			xdoc.Root.Add(new XAttribute(XNamespace.Xmlns + "xsi", xsi), new XAttribute(xsi + "noNamespaceSchemaLocation", "schema/layout-schema.xsd"));
+
+			#region me to component
+			XElement xeMe = new XElement(Air.COMPONENT, new XAttribute(Air.CLASS, Air.getComp(this)), new XAttribute(Air.ID, "main")
+					, new XElement(Air.CONSTANTS
+						, childs.Select(sitem => sitem.toXmlConstant))
+					, new XElement(Air.CHILDS
+						, childs.Select(sitem => sitem.toXmlChild))
+					, new XElement(Air.LAYOUT
+						, childs.Select(sitem => sitem.toXmlLayout))
+			);
+			xdoc.Root.Add(xeMe);
+			#endregion
+
+			xdoc.Root.Add(this.getChildsAll().Select(si => si.toXmlComponent));
+			xdoc.Save(Path.Combine(pathSave, "layout.xml"));
+		}//function
+
+		public void saveToXmlInitializer()
+		{
+			string pathSave = Path.Combine(SaveDir, @"theme\{0}\layout".fmt(Name));
+			if (Directory.Exists(pathSave) == false)
+				Directory.CreateDirectory(pathSave);
+
+			XDocument xdoc = new XDocument(new XElement("initializers")).declare();
+			XNamespace xsi = "http://www.w3.org/2001/XMLSchema-instance";
+			xdoc.Root.Add(new XAttribute(XNamespace.Xmlns + "xsi", xsi), new XAttribute(xsi + "noNamespaceSchemaLocation", "schema/component-initializer-definition.xsd")	);
+
+			//xdoc.Root.Add(this.toXmlComponent());
+			xdoc.Root.Add(this.getChildsAll().Select(si => si.toXmlInitializer).Where(xe => xe != null));
+			xdoc.Save(Path.Combine(pathSave, "componentInitializerDefinition.xml"));
 		}//function
 	}//class
 }//ns

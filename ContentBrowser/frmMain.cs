@@ -96,7 +96,7 @@ namespace synesis
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
-			scene.saveToXmlAtlas();
+			scene.saveToXmlTheme();
 		}//function
 
 	}//class

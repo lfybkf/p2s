@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -75,6 +76,13 @@ namespace synesis
 	public static class StringExtension
 	{
 		public static string fmt(this string s, params string[] args)	{	return string.Format(s, args);	}//function
+		
+		public static void zMakePath(this string path)
+		{
+			string dir = Path.GetDirectoryName(path);
+			if (Directory.Exists(dir) == false)
+				Directory.CreateDirectory(dir);
+		}//function
 	}//class
 
 
