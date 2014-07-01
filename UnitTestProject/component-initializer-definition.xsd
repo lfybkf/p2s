@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xsd:simpleType name="Id">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([a-zA-Z_0-9])*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Class">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([a-zA-Z.0-9])*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Style">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([a-zA-Z0-9,.-])*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FontName">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([a-zA-Z0-9,.-_\s])*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="PropertyNodeBaseType" mixed="false">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="ifequals" type="IfEqualsElement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="arguments" type="PropertyNodeType" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="method" type="MethodElementType" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="prototype" type="PrototypeElementType" maxOccurs="unbounded" minOccurs="0" />
+				<xsd:element name="factory" type="FactoryElement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="TextureImage" type="TextureImageElement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="Texture" type="TextureElement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="TextFormat" type="TextFormatElement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="String" type="StringPropertyElement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="Number" type="NumberPropertyElement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="DP" type="NumberPropertyElement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="NumberMultipliedScale" type="NumberPropertyElement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="uintMultipliedScale" type="UintPropertyElement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="uint" type="UintPropertyElement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="Boolean" type="BooleanPropertyElement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="const" type="ConstPropertyElement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="null" type="NullPropertyElement" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PropertyNodeType" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="PropertyNodeBaseType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="TextureImageElement" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="PropertyNodeBaseType">
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="TextureElement" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="PropertyNodeBaseType">
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="FactoryElement" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="PropertyNodeBaseType">
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="TextFormatElement" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="PropertyNodeBaseType">
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="IfEqualsElement" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="PropertyNodeBaseType">
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="StringPropertyElement" mixed="false">
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+	<xsd:complexType name="NumberPropertyElement" mixed="false">
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+	<xsd:complexType name="DPPropertyElement" mixed="false">
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+	<xsd:complexType name="UintPropertyElement" mixed="false">
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+	<xsd:complexType name="BooleanPropertyElement" mixed="false">
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+	<xsd:complexType name="ConstPropertyElement" mixed="false">
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+	<xsd:complexType name="NullPropertyElement" mixed="false">
+	</xsd:complexType>
+
+	<xsd:complexType name="SingletonType" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="PropertyNodeBaseType">
+				<xsd:attribute name="id" type="Id" use="required" />
+				<xsd:attribute name="class" type="Class" use="required" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PrototypeNodeType" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="PropertyNodeBaseType">
+				<xsd:attribute name="id" type="Id" use="required" />
+				<xsd:attribute name="class" type="Class" use="required" />
+				<xsd:attribute name="return" type="xsd:string" use="optional" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="MethodElementType" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="PropertyNodeBaseType">
+				<xsd:attribute name="name" type="xsd:string" use="required" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PrototypeElementType" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="PropertyNodeBaseType">
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="FactoryType" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="PropertyNodeBaseType">
+				<xsd:attribute name="id" type="Id" use="required" />
+				<xsd:attribute name="class" type="Class" use="required" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="StaticInitializerType" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="PropertyNodeBaseType">
+				<xsd:attribute name="id" type="Id" use="required" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="ComponentinitializerType" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="PropertyNodeBaseType">
+				<xsd:attribute name="id" type="Id" use="required" />
+				<xsd:attribute name="class" type="Class" use="required" />
+				<xsd:attribute name="style" type="Style" use="optional" />
+				<xsd:attribute name="styles" type="Style" use="optional" />
+				<xsd:attribute name="extends" type="Id" use="optional" />
+				<xsd:attribute name="leaf" type="Id" use="optional" />
+				<xsd:attribute name="subclasses" type="xsd:boolean" use="optional" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="FontType" mixed="false">
+		<xsd:complexContent>
+			<xsd:extension base="PropertyNodeBaseType">
+				<xsd:attribute name="name" type="FontName" use="required" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="initializerType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="singletonDef" type="SingletonType" maxOccurs="unbounded" minOccurs="0" />
+				<xsd:element name="prototypeDef" type="PrototypeNodeType" maxOccurs="unbounded" minOccurs="0" />
+				<xsd:element name="factoryDef" type="FactoryType" maxOccurs="unbounded" minOccurs="0" />
+				<xsd:element name="propertyinitializer" type="StaticInitializerType" maxOccurs="unbounded" minOccurs="0" />
+				<xsd:element name="initializer" type="ComponentinitializerType" maxOccurs="unbounded" minOccurs="0" />
+				<xsd:element name="fontDef" type="FontType" maxOccurs="unbounded" minOccurs="0"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="initializers" type="initializerType" />
+
+</xsd:schema>

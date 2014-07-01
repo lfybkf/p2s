@@ -60,8 +60,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="component-initializer-definition.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="layout-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="spriteSheet.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="texture-scale-definition.xsd">
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <Choose>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xsd:simpleType name="nameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([-a-z.0-9])*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="directionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="vertical" />
+			<xsd:enumeration value="horizontal" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="rangeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([0-9.])*,([0-9.])*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="rectangleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([0-9.])*,([0-9.])*,([0-9.])*,([0-9.])*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="TextureType" mixed="false">
+		<xsd:attribute name="name" type="nameType" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="Scale3TexturesType" mixed="false">
+		<xsd:attribute name="name" type="nameType" use="required" />
+		<xsd:attribute name="range" type="rangeType" use="required" />
+		<xsd:attribute name="direction" type="directionType" use="required" />
+		<xsd:attribute name="source" type="nameType" use="optional" />
+	</xsd:complexType>
+
+	<xsd:complexType name="Scale9TexturesType" mixed="false">
+		<xsd:attribute name="name" type="nameType" use="required" />
+		<xsd:attribute name="rectangle" type="rectangleType" use="required"/>
+		<xsd:attribute name="source" type="nameType" use="optional" />
+	</xsd:complexType>
+
+	<xsd:complexType name="texturesType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="Texture" type="TextureType" maxOccurs="unbounded" minOccurs="0" />
+				<xsd:element name="Scale3Textures" type="Scale3TexturesType" maxOccurs="unbounded" minOccurs="0" />
+				<xsd:element name="Scale9Textures" type="Scale9TexturesType" maxOccurs="unbounded" minOccurs="0" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="textures" type="texturesType" />
+
+</xsd:schema>

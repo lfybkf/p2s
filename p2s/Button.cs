@@ -27,14 +27,16 @@ namespace synesis
 			{
 				Sprite[] sprites = getChilds().Where(si => si is Sprite).Select(si => (Sprite)si).ToArray();
 				XElement Ret = new XElement(Air.INITIALIZER
+					, new XAttribute(Air.ID, this.id)
 					, new XAttribute(Air.CLASS, Air.getComp(this))
-					, new XAttribute(Air.ID, id + Air.INITIALIZER)
-					, new XElement(Air.TEXTURE_IMAGE
-						, new XAttribute(Air.DEFAULT_SKIN, sprites[0].id)
+					, new XAttribute(Air.STYLE, this.Style)
+					, new XElement(Air.TEXTURE_IMAGE, new XAttribute(Air.DEFAULT_SKIN, sprites[0].Frame.Name)
 					)
 				);
-				string hoverSkin = (sprites.Count() >= 2) ? sprites[1].id : sprites[0].id;
-				string downSkin = (sprites.Count() >= 3) ? sprites[2].id : sprites[0].id;
+				string hoverSkin = (sprites.Count() >= 2) ? sprites[1].id : sprites[0].Frame.Name;
+				string downSkin = (sprites.Count() >= 3) ? sprites[2].id : sprites[0].Frame.Name;
+				
+				if (sprites.Count() <= 1) Logger.def.warn("Button {0} hasnt all skins".fmt(id));
 
 				Ret.Add(new XElement(Air.TEXTURE_IMAGE, new XAttribute(Air.DOWN_SKIN, downSkin)));
 				Ret.Add(new XElement(Air.TEXTURE_IMAGE, new XAttribute(Air.HOVER_SKIN, hoverSkin)));

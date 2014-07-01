@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" >
+
+	<xsd:element name="components" type="componentsType"/>
+	
+	<xsd:complexType name="componentsType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="component" type="componentType"/>
+				<xsd:element name="configuration" type="configurationType" />		
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="componentType">
+		<xsd:sequence>
+			<xsd:element name="constants" type="constantsType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="childs" type="childsType" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="layout" type="layoutType" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="autosize" type="autosizeType" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="id" type="componentIdType" use="required"/>
+		<xsd:attribute name="class" type="componentClassType" use="required"/>
+		<xsd:attribute name="extends" type="componentIdType" use="optional"/>
+	</xsd:complexType>
+
+	<xsd:simpleType name="componentIdType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([a-z.0-9-])*" />
+		</xsd:restriction>	
+	</xsd:simpleType>
+
+	<xsd:simpleType name="componentCidType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([A-Z_0-9])*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="constantNameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([A-Z_0-9])*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="componentClassType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([a-zA-Z.0-9])*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="constantsType">
+		<xsd:sequence>
+			<xsd:element name="constant" type="constantType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="constantType">
+		<xsd:attribute name="name" type="constantNameType" use="required"/>
+		<xsd:attribute name="value" type="xsd:string" use="required"/>
+		<xsd:attribute name="type" type="constantAttributeType" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="constantAttributeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="int"/>
+			<xsd:enumeration value="uint"/>
+			<xsd:enumeration value="number"/>
+			<xsd:enumeration value="string"/>
+			<xsd:enumeration value="dp"/>
+			<xsd:enumeration value="boolean"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="childsType">
+		<xsd:sequence>
+			<xsd:element name="child" type="childType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="childType">
+		<xsd:attribute name="id" type="componentIdType" use="optional"/>
+		<xsd:attribute name="cid" type="componentCidType" use="optional"/>
+		<xsd:attribute name="style" type="childStyleType" use="optional"/>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="childStyleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([a-zA-Z0-9,.-])*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="layoutType">
+		<xsd:sequence>
+			<xsd:element name="action" type="actionType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="autosizeType">
+		<xsd:sequence>
+			<xsd:element name="action" type="actionType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="actionType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="1" maxOccurs="unbounded">
+				<xsd:element name="dp" type="subActionDPType"/>
+				<xsd:element name="const" type="subActionConstType"/>
+				<xsd:element name="number" type="subActionNumberType"/>
+				<xsd:element name="component" type="subActionComponentType"/>
+				<xsd:element name="brackets" type="subActionBracketsType"/>
+				<xsd:element name="math" type="subActionMathType"/>
+				<xsd:element name="align" type="subActionAlignType"/>
+				<xsd:element name="config" type="subActionConfigurationType"/>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="target-component-id" type="componentIdType" use="optional"/>
+		<xsd:attribute name="target-component-cid" type="componentCidType" use="optional"/>
+		<xsd:attribute name="target-property" type="actionTypeAttributeTargetPropertyType" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="actionTypeAttributeTargetPropertyType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="x"/>
+			<xsd:enumeration value="y"/>
+			<xsd:enumeration value="width"/>
+			<xsd:enumeration value="height"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="subActionBaseType">
+		<xsd:attribute name="action" type="subActionBaseAtrributeActionType"/>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="subActionBaseAtrributeActionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="sum"/>
+			<xsd:enumeration value="sub"/>
+			<xsd:enumeration value="multi"/>
+			<xsd:enumeration value="divide"/>
+			<xsd:enumeration value="mod"/>
+			<xsd:enumeration value="assign"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="subActionDPType">
+		<xsd:complexContent>
+			<xsd:extension base="subActionBaseType">
+				<xsd:attribute name="value" type="xsd:decimal" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="subActionConstType">
+		<xsd:complexContent>
+			<xsd:extension base="subActionBaseType">
+				<xsd:attribute name="component-id" type="componentIdType" use="required"/>
+				<xsd:attribute name="name" type="constantNameType" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="subActionNumberType">
+		<xsd:complexContent>
+			<xsd:extension base="subActionBaseType">
+				<xsd:attribute name="value" type="xsd:decimal" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="subActionComponentType">
+		<xsd:complexContent>
+			<xsd:extension base="subActionBaseType">
+				<xsd:attribute name="id" type="componentIdType" use="optional"/>
+				<xsd:attribute name="cid" type="componentCidType" use="optional"/>
+				<xsd:attribute name="property" type="subActionComponentAttributePropertyType" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="subActionComponentAttributePropertyType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="x"/>
+			<xsd:enumeration value="y"/>
+			<xsd:enumeration value="width"/>
+			<xsd:enumeration value="height"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="subActionBracketsType">
+		<xsd:complexContent>
+			<xsd:extension base="subActionBaseType">
+				<xsd:sequence>
+					<xsd:choice minOccurs="1" maxOccurs="unbounded">
+						<xsd:element name="dp" type="subActionDPType"/>
+						<xsd:element name="const" type="subActionConstType"/>
+						<xsd:element name="number" type="subActionNumberType"/>
+						<xsd:element name="component" type="subActionComponentType"/>
+						<xsd:element name="brackets" type="subActionBracketsType"/>
+						<xsd:element name="math" type="subActionMathType"/>
+						<xsd:element name="align" type="subActionAlignType"/>
+						<xsd:element name="config" type="subActionConfigurationType"/>
+					</xsd:choice>
+				</xsd:sequence>			
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="subActionMathType">
+		<xsd:complexContent>
+			<xsd:extension base="subActionBaseType">
+				<xsd:sequence>
+					<xsd:choice minOccurs="1" maxOccurs="unbounded">
+						<xsd:element name="dp" type="subActionDPType"/>
+						<xsd:element name="const" type="subActionConstType"/>
+						<xsd:element name="number" type="subActionNumberType"/>
+						<xsd:element name="component" type="subActionComponentType"/>
+						<xsd:element name="brackets" type="subActionBracketsType"/>
+						<xsd:element name="math" type="subActionMathType"/>
+						<xsd:element name="align" type="subActionAlignType"/>
+						<xsd:element name="config" type="subActionConfigurationType"/>
+					</xsd:choice>
+				</xsd:sequence>			
+				<xsd:attribute name="function" type="subActionMathAttributeFunctionType" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="subActionMathAttributeFunctionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="abs"/>
+			<xsd:enumeration value="ceil"/>
+			<xsd:enumeration value="floor"/>
+			<xsd:enumeration value="random"/>
+			<xsd:enumeration value="round"/>
+			<xsd:enumeration value="min"/>
+			<xsd:enumeration value="max"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:complexType name="subActionAlignType">
+		<xsd:complexContent>
+			<xsd:extension base="subActionBaseType">
+				<xsd:sequence>
+					<xsd:choice minOccurs="0" maxOccurs="unbounded">
+						<xsd:element name="dp" type="subActionDPType"/>
+						<xsd:element name="const" type="subActionConstType"/>
+						<xsd:element name="number" type="subActionNumberType"/>
+						<xsd:element name="component" type="subActionComponentType"/>
+						<xsd:element name="brackets" type="subActionBracketsType"/>
+						<xsd:element name="math" type="subActionMathType"/>
+						<xsd:element name="align" type="subActionAlignType"/>
+						<xsd:element name="config" type="subActionConfigurationType"/>
+					</xsd:choice>
+				</xsd:sequence>				
+				<xsd:attribute name="type" type="subActionAlignAttributeTypeType" use="required"/>
+				<xsd:attribute name="relative-component-id" type="componentIdType" use="optional"/>
+				<xsd:attribute name="relative-component-cid" type="componentCidType" use="optional"/>
+				<xsd:attribute name="relative-point" type="subActionAlignAttributePointType" use="required"/>
+				<xsd:attribute name="target-component-id" type="componentIdType" use="optional"/>
+				<xsd:attribute name="target-component-cid" type="componentCidType" use="optional"/>
+				<xsd:attribute name="target-point" type="subActionAlignAttributePointType" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="subActionAlignAttributeTypeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="vertical"/>
+			<xsd:enumeration value="horizontal"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="subActionAlignAttributePointType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="left"/>
+			<xsd:enumeration value="middle"/>
+			<xsd:enumeration value="right"/>
+			<xsd:enumeration value="top"/>
+			<xsd:enumeration value="center"/>
+			<xsd:enumeration value="bottom"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="subActionConfigurationType">
+		<xsd:complexContent>
+			<xsd:extension base="subActionBaseType">
+				<xsd:attribute name="id" type="componentIdType" use="optional"/>
+				<xsd:attribute name="cid" type="componentCidType" use="optional"/>
+				<xsd:attribute name="const" type="constantNameType"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+		
+	<!-- configuration schema -->
+	<xsd:complexType name="configurationType">
+		<xsd:sequence>
+			<xsd:element name="constant" type="constantType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="componentIdType" use="required"/>
+		<xsd:attribute name="class" type="componentClassType" use="required"/>	
+	</xsd:complexType>
+</xsd:schema>

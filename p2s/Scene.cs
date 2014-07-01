@@ -130,7 +130,7 @@ namespace synesis
 			int atlasNum = 0;		string atlasName = null;
 			foreach (var sheet in sheets)
 			{
-				atlasName = "atlas_{0}".fmt(atlasNum.ToString());
+				atlasName = "atlas{0}".fmt(atlasNum.ToString());
 				atlasNum++;
 
 				//make xml
@@ -147,7 +147,7 @@ namespace synesis
 
 		public void saveToXmlLayout()
 		{
-			string pathSave = Path.Combine(SaveDir, @"layouts\{0}\low800px\".fmt(Name));
+			string pathSave = Path.Combine(SaveDir, @"layouts\{0}\low100px\".fmt(Name));
 			if (Directory.Exists(pathSave) == false)
 				Directory.CreateDirectory(pathSave);
 
@@ -173,7 +173,7 @@ namespace synesis
 
 		public void saveToXmlInitializer()
 		{
-			string pathSave = Path.Combine(SaveDir, @"theme\{0}\layout".fmt(Name));
+			string pathSave = Path.Combine(SaveDir, @"theme\{0}\layout\".fmt(Name));
 			if (Directory.Exists(pathSave) == false)
 				Directory.CreateDirectory(pathSave);
 

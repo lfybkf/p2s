@@ -29,8 +29,11 @@ namespace synesis
 			get
 			{
 				Sprite[] sprites = getChilds().Where(si => si is Sprite).Select(si => (Sprite)si).ToArray();
-				XElement Ret = new XElement(Air.INITIALIZER, new XAttribute(Air.CLASS, Air.getComp(this)), new XAttribute(Air.ID, id + Air.INITIALIZER)
-					, new XElement(Air.TEXTURE_IMAGE, new XAttribute(Air.BACKGROUND_SKIN, sprites[0].id)
+				XElement Ret = new XElement(Air.INITIALIZER
+					, new XAttribute(Air.ID, this.id)
+					, new XAttribute(Air.CLASS, Air.getComp(this))
+					, new XAttribute(Air.STYLE, this.Style)
+					, new XElement(Air.TEXTURE_IMAGE, new XAttribute(Air.BACKGROUND_SKIN, sprites[0].Frame.Name)
 				));
 				return Ret;
 			}

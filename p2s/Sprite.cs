@@ -45,7 +45,7 @@ namespace synesis
 				return new XElement(Air.INITIALIZER
 					, new XAttribute(Air.ID, this.id)
 					, new XAttribute(Air.CLASS, Air.getComp(this))
-					, new XAttribute(Air.STYLE, this.id)
+					, new XAttribute(Air.STYLE, this.Style)
 					, new XElement(Air.TEXTURE_IMAGE
 						, new XAttribute(Air.IMAGE, this.Frame.Name)
 					));

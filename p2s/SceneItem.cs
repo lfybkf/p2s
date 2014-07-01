@@ -27,6 +27,7 @@ namespace synesis
 		IList<SceneItem> childs = new List<SceneItem>();
 		public Scene Scene { get { return Scene.takeScene(this); } }
 		public int DrawOrder { get { int i = 0;  bool b = Int32.TryParse(drawOrder, out i); return i; } }
+		public string Style { get { return id; } }
 		//==================
 
 		public override string ToString() { return "({0} - {1})".fmt(type, id); }//function
@@ -49,6 +50,8 @@ namespace synesis
 				fillChilds(jaChilds, childs, Scene);
 			}//if
 
+			//id work
+			id = id.Replace(".", string.Empty).Replace("-", string.Empty).Replace("_", string.Empty).ToLower();
 			return true;
 		}//function
 
@@ -111,7 +114,7 @@ namespace synesis
 			{
 				return new XElement(Air.CHILD
 					, new XAttribute(Air.CID, id.ToUpper())
-					, new XAttribute(Air.STYLE, id)
+					, new XAttribute(Air.STYLE, Style)
 				);
 			}
 		}//function
