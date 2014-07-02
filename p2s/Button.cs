@@ -33,8 +33,8 @@ namespace synesis
 					, new XElement(Air.TEXTURE_IMAGE, new XAttribute(Air.DEFAULT_SKIN, sprites[0].Frame.Name)
 					)
 				);
-				string hoverSkin = (sprites.Count() >= 2) ? sprites[1].id : sprites[0].Frame.Name;
-				string downSkin = (sprites.Count() >= 3) ? sprites[2].id : sprites[0].Frame.Name;
+				string hoverSkin = (sprites.Count() >= 2) ? sprites[1].Frame.Name : sprites[0].Frame.Name;
+				string downSkin = (sprites.Count() >= 3) ? sprites[2].Frame.Name : sprites[0].Frame.Name;
 				
 				if (sprites.Count() <= 1) Logger.def.warn("Button {0} hasnt all skins".fmt(id));
 

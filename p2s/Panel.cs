@@ -33,8 +33,8 @@ namespace synesis
 					, new XAttribute(Air.ID, this.id)
 					, new XAttribute(Air.CLASS, Air.getComp(this))
 					, new XAttribute(Air.STYLE, this.Style)
-					, new XElement(Air.TEXTURE_IMAGE, new XAttribute(Air.BACKGROUND_SKIN, sprites[0].Frame.Name)
-				));
+					//, new XElement(Air.TEXTURE_IMAGE, new XAttribute(Air.BACKGROUND_SKIN, sprites[0].Frame.Name))
+				);
 				return Ret;
 			}
 		}//function
