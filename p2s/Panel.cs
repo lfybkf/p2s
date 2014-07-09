@@ -24,6 +24,15 @@ namespace synesis
 			return true;
 		}//function
 
+		public override string[] View
+		{
+			get
+			{
+				string[] ss = new string[] { "h={0}".fmt(h), "w={0}".fmt(w) };
+				return base.View.Concat(ss).ToArray();
+			}//get
+		}//function
+
 		internal override XElement toXmlInitializer
 		{
 			get
@@ -33,7 +42,6 @@ namespace synesis
 					, new XAttribute(Air.ID, this.id)
 					, new XAttribute(Air.CLASS, Air.getComp(this))
 					, new XAttribute(Air.STYLE, this.Style)
-					//, new XElement(Air.TEXTURE_IMAGE, new XAttribute(Air.BACKGROUND_SKIN, sprites[0].Frame.Name))
 				);
 				return Ret;
 			}

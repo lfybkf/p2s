@@ -16,20 +16,25 @@ namespace synesis
 		public static readonly string fileMask = "*.spr";
 		public static readonly string fileExtension = ".spr";
 		//=================
-		public string name { get; private set;}
-		public string baseName { get { return Path.GetFileNameWithoutExtension(name); } }
-		public string Atlas { get; private set; }
+		public string name { get; private set;} //file only
+		public string ident { get; private set; } //name corrected to be ident
+		public string Atlas { get; private set; }	//name of big image-file
 		IList<Frame> frames = new List<Frame>();
+		public string BaseDir { get { return Scene == null ? baseDir : Scene.BaseDir; } set { baseDir = value; } }
+		string baseDir = Environment.CurrentDirectory;
+
+		public string baseName { get { return Path.GetFileNameWithoutExtension(name); } }
 		public int size { get { return frames.Count(); } }
 		public IEnumerable<Frame> Frames { get { return frames; } }
 		Bitmap atlasImage = null;
 		public Scene Scene { get { return Scene.takeScene(this); } }
-		string baseDir = Environment.CurrentDirectory;
-		public string BaseDir { get { return Scene == null ? baseDir : Scene.BaseDir; } set { baseDir = value; } }
+
+
 		//public string saveDir { get { return Scene.SaveDir; } }
 		//=================
 
-		public SpriteSheet(string name)		{			this.name = name;		}//function
+		public SpriteSheet(string name) { this.name = name; this.ident = name.onlySymbols();  }//constructor
+		public SpriteSheet(string name, IEnumerable<Frame> frames) : this(name) { this.frames.Concat(frames); }//constructor
 		public Frame getFrame(int index) { return frames.ElementAtOrDefault(index); }//function
 		public override string ToString() { return "{0} - {1}".fmt(TYPE, name); }//function
 
@@ -66,14 +71,15 @@ namespace synesis
 
 			Atlas = jo.get("resource.meta.image");
 			JsonArray jaFrames = new JsonArray(jo.get("resource.frames"));
-			Frame spr;
+			Frame frame;
 			for (int i = 0; i < jaFrames.Count; i++)
 			{
-				spr = new Frame();
-				spr.num = i;
-				spr.load(jaFrames.get(i));
-				spr.sheet = this;
-				frames.Add(spr);
+				frame = new Frame();
+				frame.num = i;
+				frame.load(jaFrames.get(i));
+				frame.sheet = this;
+				frames.Add(frame);
+				frame.Name = ident + i.ToString();//works only if frame.Name is empty
 			}//for
 			}
 			catch (Exception e)
@@ -149,6 +155,23 @@ namespace synesis
 			return Ret;
 		}//function
 
+		public static IEnumerable<SpriteSheet> mergeOnAtlas(IEnumerable<SpriteSheet> sheets)
+		{
+
+			IEnumerable<string> atlases = sheets.Select(sheet => sheet.Atlas).Distinct();
+			Func<string, IList<Frame>> framesOnAtlas = (atlas) => sheets.Where(sh => sh.Atlas == atlas).SelectMany(sh => sh.Frames).ToList();
+			IEnumerable<SpriteSheet> Ret = atlases.Select(atlas => new SpriteSheet(atlas.onlySymbols()) {frames = framesOnAtlas(atlas), Atlas = atlas});
+			return Ret;
+		}//function
+
+		public string[] View
+		{
+			get
+			{
+				string[] ss = new string[] { "name={0}".fmt(name), "ident={0}".fmt(ident), "atlas={0}".fmt(Atlas), "size={0}".fmt(size.ToString()) };
+				return ss;
+			}//get
+		}//function
 	}//class
 
 	 

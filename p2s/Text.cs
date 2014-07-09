@@ -25,5 +25,14 @@ namespace synesis
 			alignV = jo.get("properties.VAlignment");
 			return true;
 		}//function
+
+		public override string[] View
+		{
+			get
+			{
+				string[] ss = new string[] { "text={0}".fmt(text), "fontName={0}".fmt(fontName) };
+				return base.View.Concat(ss).ToArray();
+			}//get
+		}//function
 	}//class
 }//ns

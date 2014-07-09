@@ -127,6 +127,7 @@ namespace synesis
 			xdoc.Save(Path.Combine(pathSave, "textureScaleDefinition.xml"));
 			
 			//atlas
+			sheets = SpriteSheet.mergeOnAtlas(sheets).ToList();
 			int atlasNum = 0;		string atlasName = null;
 			foreach (var sheet in sheets)
 			{
@@ -158,11 +159,11 @@ namespace synesis
 			#region me to component
 			XElement xeMe = new XElement(Air.COMPONENT, new XAttribute(Air.CLASS, Air.getComp(this)), new XAttribute(Air.ID, "main")
 					, new XElement(Air.CONSTANTS
-						, childs.Select(sitem => sitem.toXmlConstant))
+						, childs.OrderBy(si => si.DrawOrder).Select(sitem => sitem.toXmlConstant))
 					, new XElement(Air.CHILDS
-						, childs.Select(sitem => sitem.toXmlChild))
+						, childs.OrderBy(si => si.DrawOrder).Select(sitem => sitem.toXmlChild))
 					, new XElement(Air.LAYOUT
-						, childs.Select(sitem => sitem.toXmlLayout))
+						, childs.OrderBy(si => si.DrawOrder).Select(sitem => sitem.toXmlLayout))
 			);
 			xdoc.Root.Add(xeMe);
 			#endregion

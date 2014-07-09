@@ -34,8 +34,14 @@ namespace synesis
 			{
 				pictureSprite.Image = (node.Tag as Frame).Image;
 			}//if
-			
-		}
+
+			if (node.Tag is SceneItem)
+				ctlView.Lines = (node.Tag as SceneItem).View;
+			else if (node.Tag is SpriteSheet)
+				ctlView.Lines = (node.Tag as SpriteSheet).View;
+			else
+				ctlView.Clear();
+		}//function
 
 		private void frmMain_Load(object sender, EventArgs e)
 		{

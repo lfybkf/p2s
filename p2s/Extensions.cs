@@ -75,13 +75,13 @@ namespace synesis
 
 	public static class StringExtension
 	{
+		static char[] forbiddenForIdent = " -_.,".ToCharArray();
+
 		public static string fmt(this string s, params string[] args)	{	return string.Format(s, args);	}//function
 		
-		public static void zMakePath(this string path)
+		public static string onlySymbols(this string s)
 		{
-			string dir = Path.GetDirectoryName(path);
-			if (Directory.Exists(dir) == false)
-				Directory.CreateDirectory(dir);
+			return new String(s.ToCharArray().Where(ch => !forbiddenForIdent.Contains(ch)).ToArray());
 		}//function
 	}//class
 

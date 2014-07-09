@@ -30,9 +30,10 @@
 		{
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.tvMain = new System.Windows.Forms.TreeView();
+			this.btnSave = new System.Windows.Forms.Button();
 			this.btnOpenFolder = new System.Windows.Forms.Button();
 			this.pictureSprite = new System.Windows.Forms.PictureBox();
-			this.btnSave = new System.Windows.Forms.Button();
+			this.ctlView = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -49,6 +50,7 @@
 			// splitContainer1.Panel1
 			// 
 			this.splitContainer1.Panel1.Controls.Add(this.tvMain);
+			this.splitContainer1.Panel1.Controls.Add(this.ctlView);
 			this.splitContainer1.Panel1.Controls.Add(this.btnSave);
 			this.splitContainer1.Panel1.Controls.Add(this.btnOpenFolder);
 			// 
@@ -64,10 +66,22 @@
 			this.tvMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tvMain.Location = new System.Drawing.Point(0, 40);
 			this.tvMain.Name = "tvMain";
-			this.tvMain.Size = new System.Drawing.Size(312, 460);
+			this.tvMain.Size = new System.Drawing.Size(312, 335);
 			this.tvMain.TabIndex = 1;
 			this.tvMain.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvSpriteSheet_BeforeExpand);
 			this.tvMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvSpriteSheet_AfterSelect);
+			// 
+			// btnSave
+			// 
+			this.btnSave.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.btnSave.Location = new System.Drawing.Point(0, 500);
+			this.btnSave.Name = "btnSave";
+			this.btnSave.Size = new System.Drawing.Size(312, 46);
+			this.btnSave.TabIndex = 2;
+			this.btnSave.Text = "Save";
+			this.btnSave.UseVisualStyleBackColor = true;
+			this.btnSave.Visible = false;
+			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
 			// btnOpenFolder
 			// 
@@ -90,16 +104,15 @@
 			this.pictureSprite.TabIndex = 0;
 			this.pictureSprite.TabStop = false;
 			// 
-			// btnSave
+			// ctlView
 			// 
-			this.btnSave.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.btnSave.Location = new System.Drawing.Point(0, 500);
-			this.btnSave.Name = "btnSave";
-			this.btnSave.Size = new System.Drawing.Size(312, 46);
-			this.btnSave.TabIndex = 2;
-			this.btnSave.Text = "Save";
-			this.btnSave.UseVisualStyleBackColor = true;
-			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+			this.ctlView.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.ctlView.Location = new System.Drawing.Point(0, 375);
+			this.ctlView.Multiline = true;
+			this.ctlView.Name = "ctlView";
+			this.ctlView.ReadOnly = true;
+			this.ctlView.Size = new System.Drawing.Size(312, 125);
+			this.ctlView.TabIndex = 3;
 			// 
 			// frmMain
 			// 
@@ -111,6 +124,7 @@
 			this.Text = "Form1";
 			this.Load += new System.EventHandler(this.frmMain_Load);
 			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel1.PerformLayout();
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
@@ -126,6 +140,7 @@
 		private System.Windows.Forms.TreeView tvMain;
 		private System.Windows.Forms.PictureBox pictureSprite;
 		private System.Windows.Forms.Button btnSave;
+		private System.Windows.Forms.TextBox ctlView;
 	}
 }
 

@@ -51,8 +51,15 @@ namespace synesis
 			}//if
 
 			//id work
-			id = id.Replace(".", string.Empty).Replace("-", string.Empty).Replace("_", string.Empty).ToLower();
+			id = id.onlySymbols().ToLower();
 			return true;
+		}//function
+
+		public virtual string[] View
+		{
+			get {
+				return new string[] { "type={0}".fmt(type), "id={0}".fmt(id), "x={0}".fmt(x), "y={0}".fmt(y), "drawOrder={0}".fmt(drawOrder) };
+			}//get
 		}//function
 
 		public static SceneItem create(string type)

@@ -44,6 +44,15 @@ namespace synesis
 			}
 		}//function
 
+		public string[] View
+		{
+			get
+			{
+				string[] ss = new string[] { "name={0}".fmt(name) };
+				return ss;
+			}//get
+		}//function
+
 		public void load(JsonObject jo)
 		{
 			name = jo.get("filename") ?? string.Empty;
@@ -51,7 +60,11 @@ namespace synesis
 			y = jo.get("frame.y");
 			h = jo.get("frame.h");
 			w = jo.get("frame.w");
+
+			if (name != string.Empty)
+				name = name.onlySymbols();
 		}//function
+
 
 		public void load(XElement elem)
 		{

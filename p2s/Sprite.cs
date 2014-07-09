@@ -31,6 +31,15 @@ namespace synesis
 			return true;
 		}//function
 
+		public override string[] View
+		{
+			get
+			{
+				string[] ss = new string[] { "sheetName={0}".fmt(sheetName), "num={0}".fmt(num.ToString()) };
+				return base.View.Concat(ss).ToArray();
+			}//get
+		}//function
+
 		/// <summary>
 		/// sequence here is not good
 		/// id depends on sheen
