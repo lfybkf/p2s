@@ -98,8 +98,11 @@ namespace synesis
 				
 				typeChild = jo.get("type");
 				child = SceneItem.create(typeChild);
-				childs.Add(child);
-				child.init(jo);
+				if (child != null)
+				{
+					childs.Add(child);
+					child.init(jo);
+				}//if
 			}//for
 
 			return true;

@@ -77,6 +77,7 @@
 			this.btnSave.TabIndex = 2;
 			this.btnSave.Text = "Save";
 			this.btnSave.UseVisualStyleBackColor = true;
+			this.btnSave.Visible = false;
 			// 
 			// btnOpenFolder
 			// 
@@ -109,6 +110,7 @@
 			this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.Name = "frmMain";
 			this.Text = "Form1";
+			this.Load += new System.EventHandler(this.frmMain_Load);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

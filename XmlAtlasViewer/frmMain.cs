@@ -12,11 +12,29 @@ namespace synesis
 {
 	public partial class frmMain : Form
 	{
-		string curDir = Environment.CurrentDirectory;
+		internal string curDir = null;
 		public frmMain()
 		{
 			InitializeComponent();
 		}
+
+		void runOpenFolder(string path)
+		{
+			curDir = System.IO.Path.GetDirectoryName(path);
+			TreeView tv = tvMain;
+			TreeNode node;
+			tv.Nodes.Clear();
+			foreach (var sheet in SpriteSheet.getFromTheme(curDir))
+			{
+				node = tvMain.addNode(sheet, false);
+				foreach (var frame in sheet.Frames)
+				{
+					node.addNode(frame, false);
+				}//for
+			}//for
+
+			this.Text = curDir;
+		}//function
 
 		private void btnOpenFolder_Click(object sender, EventArgs e)
 		{
@@ -25,20 +43,9 @@ namespace synesis
 			DialogResult result = dlg.ShowDialog();
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
-				curDir = dlg.SelectedPath;
-				TreeView tv = tvMain;
-				TreeNode node;
-				tv.Nodes.Clear();
-				foreach (var sheet in SpriteSheet.getFromTheme(dlg.SelectedPath))
-				{
-					node = tvMain.addNode(sheet, false);
-					foreach (var frame in sheet.Frames)
-					{
-						node.addNode(frame, false);
-					}//for
-				}//for
+				runOpenFolder(dlg.SelectedPath);
 			}//if
-		}
+		}//function
 
 		private void tvMain_AfterSelect(object sender, TreeViewEventArgs e)
 		{
@@ -48,6 +55,12 @@ namespace synesis
 				Frame frame = (node.Tag as Frame);
 				pictureSprite.Image = frame.Image;
 			}//if
+		}//function
+
+		private void frmMain_Load(object sender, EventArgs e)
+		{
+			if (curDir != null)
+				runOpenFolder(curDir);
 		}//function
 	}//class
 

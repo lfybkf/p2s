@@ -29,9 +29,7 @@ namespace synesis
 			scene.Name = "playtika";
 			scene.load();
 			scene.SaveDir = dirOutput;
-			scene.saveToXmlTheme();
-			scene.saveToXmlLayout();
-			scene.saveToXmlInitializer();
+			scene.saveToXml();
 		}//function
 
 		static void printHelp()

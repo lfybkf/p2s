@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace synesis
 {
-	class Logger
+	public class Logger
 	{
 		static string nameDefault = "application.log";
 		static string INFO = "info: {0}\r\n";
@@ -23,20 +23,10 @@ namespace synesis
 			get { return instance; }
 		}//function
 
-		public void info(string msg)
-		{
-			File.AppendAllText(fileName, INFO.fmt(msg));
-		}//function
-
-		public void warn(string msg)
-		{
-			File.AppendAllText(fileName, WARN.fmt(msg));
-		}//function
-
-		public void err(string msg)
-		{
-			File.AppendAllText(fileName, ERR.fmt(msg));
-		}//function
+		public void info(string msg)		{			File.AppendAllText(fileName, INFO.fmt(msg));		}//function
+		public void warn(string msg)		{			File.AppendAllText(fileName, WARN.fmt(msg));		}//function
+		public void err(string msg)		{			File.AppendAllText(fileName, ERR.fmt(msg));		}//function
+		public void clear() { File.Delete(fileName); }//function
 
 
 	}//class

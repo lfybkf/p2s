@@ -16,6 +16,7 @@ namespace synesis
 	{
 		Scene scene;
 		TreeNode dummy = new TreeNode();
+		internal string pathScene = null;
 
 		public frmMain()
 		{
@@ -46,8 +47,19 @@ namespace synesis
 		private void frmMain_Load(object sender, EventArgs e)
 		{
 			this.Text = "GameContent";
-			//doLoad();
+			if (pathScene != null)
+				doOpenPath(pathScene);
 		}
+
+		void doOpenPath(string path)
+		{
+			pathScene = path;
+			scene = new Scene(pathScene);
+			scene.load();
+
+			tvMain.Nodes.Clear();
+			tvMain.addNode(scene, true);
+		}//function
 
 		private void btnOpenFolder_Click(object sender, EventArgs e)
 		{
@@ -60,13 +72,7 @@ namespace synesis
 
 			DialogResult res = dialog.ShowDialog();
 			if (res == System.Windows.Forms.DialogResult.OK)
-			{
-				scene = new Scene(dialog.FileName);
-				scene.load();
-
-				tvMain.Nodes.Clear();
-				tvMain.addNode(scene, true);
-			}//if
+			{				doOpenPath(dialog.FileName);			}//if
 		}//function
 
 		private void tvSpriteSheet_BeforeExpand(object sender, TreeViewCancelEventArgs e)

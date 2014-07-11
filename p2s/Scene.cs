@@ -42,6 +42,8 @@ namespace synesis
 
 		public bool load()
 		{
+			Logger.def.clear();
+
 			#region loading and testing
 			if (File.Exists(fileName) ==false)
 			{
@@ -109,6 +111,13 @@ namespace synesis
 				Ret = new JsonObject(s);
 
 			return Ret;
+		}//function
+
+		public void saveToXml()
+		{
+			saveToXmlTheme();
+			saveToXmlLayout();
+			saveToXmlInitializer();
 		}//function
 
 		public void saveToXmlTheme()
