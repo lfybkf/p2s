@@ -37,7 +37,7 @@ namespace synesis
 				string hoverSkin = (sprites.Length >= 2) ? sprites[1].Frame.Name : sprites[0].Frame.Name;
 				string downSkin = (sprites.Length >= 3) ? sprites[2].Frame.Name : sprites[0].Frame.Name;
 
-				if (sprites.Count() <= 1) Logger.def.warn("Button {0} hasnt all skins".fmt(id));
+				if (sprites.Count() <= 1) Logger.def.warn("Checkbox {0} hasnt all skins".fmt(id));
 
 				Ret.Add(new XElement(Air.TEXTURE_IMAGE, new XAttribute(Air.DOWN_SKIN, downSkin)));
 				Ret.Add(new XElement(Air.TEXTURE_IMAGE, new XAttribute(Air.HOVER_SKIN, hoverSkin)));
