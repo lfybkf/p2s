@@ -122,12 +122,13 @@ namespace synesis
 
 		public void saveToXmlTheme()
 		{
-			XDocument xdoc;
 			string pathSave = Path.Combine(SaveDir, @"theme\{0}\drawable-mdpi\".fmt(Name));
 
-			if (Directory.Exists(pathSave) == false)
-				Directory.CreateDirectory(pathSave);
+			//clear dir
+			if (Directory.Exists(pathSave)) { Directory.Delete(pathSave, true); }
+			Directory.CreateDirectory(pathSave);
 
+			XDocument xdoc;
 			//scale
 			IEnumerable<Frame> frames = sheets.SelectMany(sheet => sheet.Frames).OrderBy(f => f.Name);
 			xdoc = new XDocument(	new XElement("textures", frames.Select(f => f.toXmlScale()))).declare();
@@ -158,8 +159,9 @@ namespace synesis
 		public void saveToXmlLayout()
 		{
 			string pathSave = Path.Combine(SaveDir, @"layouts\{0}\low100px\".fmt(Name));
-			if (Directory.Exists(pathSave) == false)
-				Directory.CreateDirectory(pathSave);
+			//clear dir
+			if (Directory.Exists(pathSave)) { Directory.Delete(pathSave, true); }
+			Directory.CreateDirectory(pathSave);
 
 			XDocument xdoc = new XDocument(new XElement("components") ).declare();
 			XNamespace xsi = "http://www.w3.org/2001/XMLSchema-instance";
@@ -184,9 +186,11 @@ namespace synesis
 		public void saveToXmlInitializer()
 		{
 			string pathSave = Path.Combine(SaveDir, @"theme\{0}\layout\".fmt(Name));
-			if (Directory.Exists(pathSave) == false)
-				Directory.CreateDirectory(pathSave);
 
+			//clear dir
+			if (Directory.Exists(pathSave)) { Directory.Delete(pathSave, true); }
+			Directory.CreateDirectory(pathSave);
+			
 			XDocument xdoc = new XDocument(new XElement("initializers")).declare();
 			XNamespace xsi = "http://www.w3.org/2001/XMLSchema-instance";
 			xdoc.Root.Add(new XAttribute(XNamespace.Xmlns + "xsi", xsi), new XAttribute(xsi + "noNamespaceSchemaLocation", "schema/component-initializer-definition.xsd")	);

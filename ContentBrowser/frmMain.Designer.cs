@@ -30,10 +30,10 @@
 		{
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.tvMain = new System.Windows.Forms.TreeView();
+			this.ctlView = new System.Windows.Forms.TextBox();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.btnOpenFolder = new System.Windows.Forms.Button();
 			this.pictureSprite = new System.Windows.Forms.PictureBox();
-			this.ctlView = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -66,10 +66,21 @@
 			this.tvMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tvMain.Location = new System.Drawing.Point(0, 40);
 			this.tvMain.Name = "tvMain";
-			this.tvMain.Size = new System.Drawing.Size(312, 335);
+			this.tvMain.Size = new System.Drawing.Size(312, 304);
 			this.tvMain.TabIndex = 1;
 			this.tvMain.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvSpriteSheet_BeforeExpand);
 			this.tvMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvSpriteSheet_AfterSelect);
+			// 
+			// ctlView
+			// 
+			this.ctlView.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.ctlView.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.ctlView.Location = new System.Drawing.Point(0, 344);
+			this.ctlView.Multiline = true;
+			this.ctlView.Name = "ctlView";
+			this.ctlView.ReadOnly = true;
+			this.ctlView.Size = new System.Drawing.Size(312, 156);
+			this.ctlView.TabIndex = 3;
 			// 
 			// btnSave
 			// 
@@ -104,16 +115,6 @@
 			this.pictureSprite.TabIndex = 0;
 			this.pictureSprite.TabStop = false;
 			// 
-			// ctlView
-			// 
-			this.ctlView.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.ctlView.Location = new System.Drawing.Point(0, 375);
-			this.ctlView.Multiline = true;
-			this.ctlView.Name = "ctlView";
-			this.ctlView.ReadOnly = true;
-			this.ctlView.Size = new System.Drawing.Size(312, 125);
-			this.ctlView.TabIndex = 3;
-			// 
 			// frmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -121,7 +122,8 @@
 			this.ClientSize = new System.Drawing.Size(937, 546);
 			this.Controls.Add(this.splitContainer1);
 			this.Name = "frmMain";
-			this.Text = "Form1";
+			this.Text = "GameContent";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Load += new System.EventHandler(this.frmMain_Load);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel1.PerformLayout();
